@@ -6,9 +6,9 @@ Think of it like what [Omarchy](https://omarchy.org) is for Arch Linux: one pers
 
 ![Home](.github/screenshots/home.png)
 
-| A project page | The bookshelf | The habit tracker |
-|---|---|---|
-| ![Project page](.github/screenshots/project.png) | ![Bookshelf](.github/screenshots/bookshelf.png) | ![Habit tracker](.github/screenshots/habits.png) |
+| A course page | Habit tracker in a daily note + the bookshelf |
+|---|---|
+| ![A course page with its modules and notes](.github/screenshots/course.png) | ![The habit tracker in a daily note, next to the bookshelf](.github/screenshots/habit%20tracker%20in%20daily%20note%20and%20books.png) |
 
 ---
 
