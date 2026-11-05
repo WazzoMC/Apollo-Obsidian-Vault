@@ -1,0 +1,720 @@
+/* ═══════════════════════════════════════════════
+   🎨 Accent plumbing  (added 2026-10-20)
+   Buttons, pills, glows and arrows follow the ACTIVE colour
+   scheme instead of a fixed Everforest green.
+   --accent-h/s/l are set by Obsidian + Minimal Theme Settings,
+   so Catppuccin -> beige, Flexoki -> teal, Everforest -> green,
+   automatically, in both light and dark mode.
+   Backup of the old fixed-green version:
+     .obsidian/snippets/bookshelf.css.bak-before-accent
+   To pin one fixed colour again, hard-code the triplet below,
+   e.g.  --ui-accent-a: 88, 30%, 63%;  for Everforest green.
+   ═══════════════════════════════════════════════ */
+body {
+  --ui-accent-a: var(--accent-h), var(--accent-s), var(--accent-l);
+  --ui-accent: hsl(var(--ui-accent-a));
+}
+
+/* ───────────────────────────────────────────────
+   📚 Bookshelf look for Bases card views
+   Use: add `bookshelf` to a note's cssclasses,
+   or wrap an embed in a  > [!bookshelf]  callout.
+   ─────────────────────────────────────────────── */
+
+:is(.bookshelf, .callout[data-callout="bookshelf"]) .bases-view {
+  --bases-cards-background: transparent;
+  --bases-cards-cover-background: var(--background-secondary);
+  --bases-cards-border-width: 0;
+  --bases-cards-shadow: none;
+  --bases-cards-shadow-hover: none;
+}
+
+/* invisible callout wrapper (used on Home) */
+.callout[data-callout="bookshelf"] {
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+}
+.callout[data-callout="bookshelf"] > .callout-title { display: none; }
+.callout[data-callout="bookshelf"] > .callout-content { padding: 0; }
+
+/* roomier grid */
+:is(.bookshelf, .callout[data-callout="bookshelf"]) .bases-cards-group {
+  gap: 26px 18px;
+}
+
+/* the card: no box, just the book */
+:is(.bookshelf, .callout[data-callout="bookshelf"]) .bases-cards-item {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none !important;
+  overflow: visible;
+  transition: transform 0.2s cubic-bezier(.2, .8, .2, 1);
+}
+:is(.bookshelf, .callout[data-callout="bookshelf"]) .bases-cards-item:hover {
+  transform: translateY(-6px) rotate(-0.6deg);
+}
+
+/* the cover: lifted, rounded, with a book-spine highlight */
+:is(.bookshelf, .callout[data-callout="bookshelf"]) .bases-cards-cover {
+  position: relative;
+  border-radius: 3px 7px 7px 3px;
+  overflow: hidden;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, .38), 0 2px 4px rgba(0, 0, 0, .3);
+  transition: box-shadow 0.2s ease;
+}
+:is(.bookshelf, .callout[data-callout="bookshelf"]) .bases-cards-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg,
+      rgba(255,255,255,.18) 0%, rgba(255,255,255,0) 2.5%,
+      rgba(0,0,0,.28) 4.5%, rgba(0,0,0,0) 9%),
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.12));
+}
+:is(.bookshelf, .callout[data-callout="bookshelf"]) .bases-cards-item:hover .bases-cards-cover {
+  box-shadow: 0 18px 32px rgba(0, 0, 0, .5), 0 4px 8px rgba(0, 0, 0, .3);
+}
+
+/* text under the cover: no labels, one clean line each */
+:is(.bookshelf, .callout[data-callout="bookshelf"]) .bases-cards-label { display: none; }
+:is(.bookshelf, .callout[data-callout="bookshelf"]) .bases-cards-property {
+  padding: 1px 2px 0;
+  min-height: 0;
+}
+:is(.bookshelf, .callout[data-callout="bookshelf"]) .bases-cards-line {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+:is(.bookshelf, .callout[data-callout="bookshelf"]) .bases-cards-property.mod-title {
+  padding-top: 10px;
+}
+:is(.bookshelf, .callout[data-callout="bookshelf"]) .bases-cards-property.mod-title .bases-cards-line {
+  font-size: 13.5px;
+  font-weight: 650;
+  color: var(--text-normal);
+}
+/* author links: quiet, not blue-underlined */
+:is(.bookshelf, .callout[data-callout="bookshelf"]) .bases-cards-line a {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+:is(.bookshelf, .callout[data-callout="bookshelf"]) .bases-cards-line a:hover {
+  color: var(--text-accent);
+}
+
+/* ───────────── 🏠 dashboard (Home) ───────────── */
+.dashboard .bases-cards-item {
+  border-radius: 10px;
+  transition: transform 0.18s ease;
+}
+.dashboard .bases-cards-item:hover { transform: translateY(-3px); }
+.dashboard .bases-cards-cover { border-radius: 10px 10px 0 0; }
+
+/* ⭐ yellow rating stars (from the `shelf` formula) */
+.shelf-stars {
+  color: #f5c518;
+  letter-spacing: 1px;
+  text-shadow: 0 0 6px rgba(245, 197, 24, 0.35);
+}
+
+/* ───────────────────────────────────────────────
+   🎮 Game shelf: game cases instead of books
+   Add `gameshelf` next to `bookshelf` in cssclasses.
+   ─────────────────────────────────────────────── */
+.bookshelf.gameshelf {
+  --game-glow: 124, 92, 255;   /* neon purple, change to taste (R, G, B) */
+}
+
+/* case shape: rounded on all corners, clear plastic rim */
+.bookshelf.gameshelf .bases-cards-cover {
+  border-radius: 10px;
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, .07),
+    0 0 0 4px rgba(0, 0, 0, .35),
+    0 10px 22px rgba(0, 0, 0, .45);
+  transition: box-shadow .25s ease;
+}
+
+/* no book spine; a glossy case sheen + dark case band on top instead */
+.bookshelf.gameshelf .bases-cards-cover::after {
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, .55) 0, rgba(0, 0, 0, .55) 5%, rgba(255, 255, 255, .10) 5.4%, rgba(255, 255, 255, 0) 7%),
+    linear-gradient(115deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, .22) 42%, rgba(255, 255, 255, 0) 54%);
+  background-size: 100% 100%, 250% 100%;
+  background-position: 0 0, 120% 0;
+  background-repeat: no-repeat;
+  transition: background-position .6s ease;
+}
+
+/* hover: pick the game up — lift, slight 3D turn, neon glow, light sweeps across */
+.bookshelf.gameshelf .bases-cards-item {
+  perspective: 700px;
+}
+.bookshelf.gameshelf .bases-cards-item:hover {
+  transform: translateY(-6px) scale(1.03);
+}
+.bookshelf.gameshelf .bases-cards-item:hover .bases-cards-cover {
+  transform: rotateY(-6deg);
+  box-shadow:
+    0 0 0 3px rgba(var(--game-glow), .55),
+    0 0 18px rgba(var(--game-glow), .55),
+    0 16px 30px rgba(0, 0, 0, .5);
+}
+.bookshelf.gameshelf .bases-cards-item:hover .bases-cards-cover::after {
+  background-position: 0 0, -20% 0;
+}
+.bookshelf.gameshelf .bases-cards-cover {
+  transition: box-shadow .25s ease, transform .25s ease;
+}
+
+/* title in a subtle arcade style */
+.bookshelf.gameshelf .bases-cards-property.mod-title .bases-cards-line {
+  letter-spacing: .02em;
+}
+
+/* ───────────────────────────────────────────────
+   🏠 Home: invisible wrappers  > [!tiles]  and  > [!gallery]
+   ─────────────────────────────────────────────── */
+.callout:is([data-callout="tiles"], [data-callout="gallery"]) {
+  background: none; border: none; box-shadow: none; padding: 0; margin: 0;
+}
+.callout:is([data-callout="tiles"], [data-callout="gallery"]) > .callout-title { display: none; }
+.callout:is([data-callout="tiles"], [data-callout="gallery"]) > .callout-content { padding: 0; }
+.callout:is([data-callout="tiles"], [data-callout="gallery"]) .bases-cards-label { display: none; }
+
+/* 🎯 tiles: desktop-style folder icons with small caps names */
+.callout[data-callout="tiles"] .bases-view {
+  --bases-cards-background: transparent;
+  --bases-cards-cover-background: transparent;
+  --bases-cards-border-width: 0;
+  --bases-cards-shadow: none;
+  --bases-cards-shadow-hover: none;
+}
+.callout[data-callout="tiles"] .bases-cards-group { gap: 10px 6px; }
+.callout[data-callout="tiles"] .bases-cards-item {
+  background: transparent; border: none; box-shadow: none !important;
+  transition: transform .18s cubic-bezier(.2, .8, .2, 1);
+}
+.callout[data-callout="tiles"] .bases-cards-item:hover { transform: translateY(-5px) rotate(-2deg); }
+.callout[data-callout="tiles"] .bases-cards-cover {
+  background-color: transparent !important;
+  background-size: 82% !important;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, .25));
+}
+.callout[data-callout="tiles"] .bases-cards-property.mod-title { padding: 2px 4px 0; text-align: center; }
+.callout[data-callout="tiles"] .bases-cards-property.mod-title .bases-cards-line {
+  font-family: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  color: var(--text-normal);
+}
+
+/* 🌱 gallery: picture cards with a quiet mono caption */
+.callout[data-callout="gallery"] .bases-view {
+  --bases-cards-background: var(--background-secondary);
+  --bases-cards-border-width: 0;
+  --bases-cards-shadow: 0 2px 8px rgba(0, 0, 0, .25);
+  --bases-cards-shadow-hover: 0 10px 22px rgba(0, 0, 0, .4);
+}
+.callout[data-callout="gallery"] .bases-cards-group { gap: 14px; }
+.callout[data-callout="gallery"] .bases-cards-item {
+  border-radius: 8px; overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.callout[data-callout="gallery"] .bases-cards-item:hover { transform: translateY(-4px); }
+.callout[data-callout="gallery"] .bases-cards-cover { border-radius: 0; }
+.callout[data-callout="gallery"] .bases-cards-property.mod-title { padding: 8px 10px 9px; }
+.callout[data-callout="gallery"] .bases-cards-property.mod-title .bases-cards-line {
+  font-family: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .03em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* 🎯 tiles v2: bigger names that wrap to 2 lines + deadline line */
+.callout[data-callout="tiles"] .bases-cards-property.mod-title .bases-cards-line {
+  font-size: 13px;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.35;
+}
+.callout[data-callout="tiles"] .bases-cards-property:not(.mod-title) { text-align: center; padding: 0 4px; }
+.callout[data-callout="tiles"] .bases-cards-property:not(.mod-title) .bases-cards-line {
+  font-family: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace;
+  font-size: 11.5px;
+  color: var(--ui-accent);            /* everforest green */
+  letter-spacing: .04em;
+}
+
+
+/* 🎯 tiles: slightly smaller names to fit the smaller tiles */
+.callout[data-callout="tiles"] .bases-cards-property.mod-title .bases-cards-line { font-size: 12px; }
+.callout[data-callout="tiles"] .bases-cards-property:not(.mod-title) .bases-cards-line { font-size: 11px; }
+
+/* 🏠 Home: pull the Now + Areas bases up closer to their headings */
+.callout:is([data-callout="tiles"], [data-callout="gallery"]) {
+  margin-top: -14px !important;
+}
+.callout:is([data-callout="tiles"], [data-callout="gallery"]) > .callout-content > p,
+.callout:is([data-callout="tiles"], [data-callout="gallery"]) .internal-embed,
+.callout:is([data-callout="tiles"], [data-callout="gallery"]) .bases-embed {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* 🎯 tiles: one line per name, long names end with "…" */
+.callout[data-callout="tiles"] .bases-cards-property.mod-title .bases-cards-line {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: unset;
+}
+
+/* 📖 Home: pull "On my shelf" up closer to its heading too */
+.callout[data-callout="bookshelf"] {
+  margin-top: -14px !important;
+}
+.callout[data-callout="bookshelf"] > .callout-content > p,
+.callout[data-callout="bookshelf"] .internal-embed,
+.callout[data-callout="bookshelf"] .bases-embed {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* ───────────────────────────────────────────────
+   🗯️ Manga shelf: tankōbon paperbacks
+   Add `mangashelf` next to `bookshelf` in cssclasses.
+   ─────────────────────────────────────────────── */
+/* paperback: square-ish corners + stacked page edges on the right */
+.bookshelf.mangashelf .bases-cards-cover {
+  border-radius: 1px 3px 3px 1px;
+  overflow: visible;
+  box-shadow:
+    1px 0 0 #f3ecdc,
+    2px 1px 0 #d6ccb8,
+    3px 1px 0 #f3ecdc,
+    4px 2px 0 #c4b9a3,
+    5px 2px 0 #ebe3d1,
+    0 8px 16px rgba(0, 0, 0, .4);
+  transition: box-shadow .25s ease;
+}
+/* no hardcover spine: soft matte paper instead */
+.bookshelf.mangashelf .bases-cards-cover::after {
+  border-radius: inherit;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .10), rgba(255, 255, 255, 0) 40%, rgba(0, 0, 0, .10)),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, .025) 0 1px, transparent 1px 3px);
+}
+/* page corner that lifts on hover */
+.bookshelf.mangashelf .bases-cards-cover::before {
+  content: "";
+  position: absolute;
+  right: 0; bottom: 0;
+  width: 0; height: 0;
+  z-index: 2;
+  background: linear-gradient(315deg, transparent 50%, #f6f0e2 50%, #d9cfbb 100%);
+  box-shadow: -2px -2px 5px rgba(0, 0, 0, .25);
+  transition: width .25s ease, height .25s ease;
+}
+.bookshelf.mangashelf .bases-cards-item:hover {
+  transform: translateY(-8px);
+}
+.bookshelf.mangashelf .bases-cards-item:hover .bases-cards-cover::before {
+  width: 22px; height: 22px;
+}
+.bookshelf.mangashelf .bases-cards-item:hover .bases-cards-cover {
+  box-shadow:
+    1px 0 0 #f3ecdc, 2px 1px 0 #d6ccb8, 3px 1px 0 #f3ecdc, 4px 2px 0 #c4b9a3, 5px 2px 0 #ebe3d1,
+    0 16px 26px rgba(0, 0, 0, .5);
+}
+
+/* ───────────────────────────────────────────────
+   🍥 Anime + 🎬 Movies shelves: streaming posters
+   Add `animeshelf` (orange) or `movieshelf` (red) next to `bookshelf`.
+   ─────────────────────────────────────────────── */
+.bookshelf.animeshelf {
+  --stream-glow: 244, 117, 33;   /* Crunchyroll orange (R, G, B) */
+}
+.bookshelf.movieshelf {
+  --stream-glow: 229, 9, 20;     /* Netflix red (R, G, B) */
+}
+.bookshelf:is(.animeshelf, .movieshelf) .bases-cards-cover {
+  border-radius: 8px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, .45);
+  transition: box-shadow .25s ease, transform .25s ease;
+}
+/* no book spine: dark fade at the bottom like a streaming tile */
+.bookshelf:is(.animeshelf, .movieshelf) .bases-cards-cover::after {
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .55) 100%);
+}
+/* round play button, hidden until hover */
+.bookshelf:is(.animeshelf, .movieshelf) .bases-cards-cover::before {
+  content: "▶";
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 42px; height: 42px;
+  margin: -21px 0 0 -21px;
+  z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  padding-left: 3px;
+  border-radius: 50%;
+  font-size: 16px;
+  color: #fff;
+  background: rgba(var(--stream-glow), .92);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .45);
+  opacity: 0;
+  transform: scale(.7);
+  transition: opacity .2s ease, transform .2s ease;
+}
+/* hover: lift, slight zoom, orange glow, play button pops in */
+.bookshelf:is(.animeshelf, .movieshelf) .bases-cards-item:hover {
+  transform: translateY(-4px);
+}
+.bookshelf:is(.animeshelf, .movieshelf) .bases-cards-item:hover .bases-cards-cover {
+  transform: scale(1.04);
+  box-shadow:
+    0 0 0 2px rgba(var(--stream-glow), .85),
+    0 0 20px rgba(var(--stream-glow), .45),
+    0 16px 28px rgba(0, 0, 0, .5);
+}
+.bookshelf:is(.animeshelf, .movieshelf) .bases-cards-item:hover .bases-cards-cover::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ───────────────────────────────────────────────
+   ▶️ On it now: soft rounded covers + Everforest green glow
+   Home's  > [!bookshelf]  callout + any note with `postershelf` next to `bookshelf`.
+   ─────────────────────────────────────────────── */
+:is(.bookshelf.postershelf, .callout[data-callout="bookshelf"]) {
+  --poster-glow: var(--ui-accent-a);   /* follows the active colour scheme (H, S, L) */
+}
+:is(.bookshelf.postershelf, .callout[data-callout="bookshelf"]) .bases-cards-cover {
+  border-radius: 14px;
+  box-shadow:
+    0 0 0 1px hsla(var(--poster-glow), .18),
+    0 8px 18px rgba(0, 0, 0, .4);
+  transition: box-shadow .3s ease, transform .3s ease;
+}
+/* no book spine, just a faint glossy sheen */
+:is(.bookshelf.postershelf, .callout[data-callout="bookshelf"]) .bases-cards-cover::after {
+  border-radius: inherit;
+  background: linear-gradient(160deg, rgba(255, 255, 255, .10) 0%, rgba(255, 255, 255, 0) 35%);
+}
+:is(.bookshelf.postershelf, .callout[data-callout="bookshelf"]) .bases-cards-item:hover {
+  transform: translateY(-5px);
+}
+:is(.bookshelf.postershelf, .callout[data-callout="bookshelf"]) .bases-cards-item:hover .bases-cards-cover {
+  box-shadow:
+    0 0 0 2px hsla(var(--poster-glow), .75),
+    0 0 22px hsla(var(--poster-glow), .45),
+    0 14px 26px rgba(0, 0, 0, .45);
+}
+
+/* ▶️ On it now: round the whole card like the Areas gallery does
+   (rounding the card itself works; rounding only the cover gets cut off at the bottom) */
+:is(.bookshelf.postershelf, .callout[data-callout="bookshelf"]) .bases-cards-item {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  box-shadow:
+    0 0 0 1px hsla(var(--poster-glow), .18),
+    0 8px 18px rgba(0, 0, 0, .4) !important;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+:is(.bookshelf.postershelf, .callout[data-callout="bookshelf"]) .bases-cards-item:hover {
+  box-shadow:
+    0 0 0 2px hsla(var(--poster-glow), .75),
+    0 0 22px hsla(var(--poster-glow), .45),
+    0 14px 26px rgba(0, 0, 0, .45) !important;
+}
+:is(.bookshelf.postershelf, .callout[data-callout="bookshelf"]) .bases-cards-cover,
+:is(.bookshelf.postershelf, .callout[data-callout="bookshelf"]) .bases-cards-item:hover .bases-cards-cover {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* ▶️ On it now: no lifting on hover, only the green glow */
+:is(.bookshelf.postershelf, .callout[data-callout="bookshelf"]) .bases-cards-item,
+:is(.bookshelf.postershelf, .callout[data-callout="bookshelf"]) .bases-cards-item:hover,
+:is(.bookshelf.postershelf, .callout[data-callout="bookshelf"]) .bases-cards-item:hover .bases-cards-cover {
+  transform: none !important;
+}
+
+/* ▶️ On it now: no grey strip at the top, picture fills the whole card */
+:is(.bookshelf.postershelf, .callout[data-callout="bookshelf"]) .bases-view {
+  --bases-cards-cover-background: transparent;
+  --bases-cards-background: transparent;
+}
+:is(.bookshelf.postershelf, .callout[data-callout="bookshelf"]) .bases-cards-item {
+  background: transparent !important;
+  padding: 0 !important;
+  border: none !important;
+}
+:is(.bookshelf.postershelf, .callout[data-callout="bookshelf"]) .bases-cards-cover {
+  margin: 0 !important;
+  border: none !important;
+  background-color: transparent !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
+:is(.bookshelf.postershelf, .callout[data-callout="bookshelf"]) .bases-cards-cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ───────────────────────────────────────────────
+   🔘 Home: quick-link buttons   > [!buttons]
+   ─────────────────────────────────────────────── */
+.callout[data-callout="buttons"] {
+  background: none; border: none; box-shadow: none; padding: 0; margin: 4px 0 6px;
+}
+.callout[data-callout="buttons"] > .callout-title { display: none; }
+.callout[data-callout="buttons"] > .callout-content { padding: 0; }
+.callout[data-callout="buttons"] > .callout-content > p {
+  display: flex; flex-wrap: wrap; gap: 12px; margin: 0;
+}
+.callout[data-callout="buttons"] a {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  border: 1px solid hsla(var(--ui-accent-a), .35);
+  background: var(--background-secondary);
+  color: var(--text-normal) !important;
+  font-family: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: .03em;
+  text-decoration: none !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .25);
+  transition: background .2s ease, border-color .2s ease, box-shadow .2s ease, color .2s ease;
+}
+.callout[data-callout="buttons"] a:hover {
+  background: hsla(var(--ui-accent-a), .14);
+  border-color: hsla(var(--ui-accent-a), .85);
+  color: var(--ui-accent) !important;
+  box-shadow: 0 0 14px hsla(var(--ui-accent-a), .35);
+}
+/* hide the little external-link arrow on Today */
+.callout[data-callout="buttons"] a.external-link {
+  background-image: none !important;
+  padding-right: 16px;
+}
+
+/* 🔘 buttons: centered in the row */
+.callout[data-callout="buttons"] > .callout-content > p { justify-content: center; }
+
+/* 🔘 buttons: room for the shadow so the bottom never gets clipped */
+.callout[data-callout="buttons"],
+.callout[data-callout="buttons"] > .callout-content { overflow: visible !important; }
+.callout[data-callout="buttons"] > .callout-content > p { padding: 2px 0 8px; }
+
+/* 🔘 buttons in light mode: soft shadow, Everforest-light colours */
+.theme-light .callout[data-callout="buttons"] a {
+  background: var(--background-primary);
+  border-color: hsla(var(--ui-accent-a), .35);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .06), 0 2px 6px rgba(0, 0, 0, .06);
+}
+.theme-light .callout[data-callout="buttons"] a:hover {
+  background: hsla(var(--ui-accent-a), .10);
+  border-color: hsla(var(--ui-accent-a), .8);
+  color: var(--ui-accent) !important;
+  box-shadow: 0 0 12px hsla(var(--ui-accent-a), .25);
+}
+
+/* ▶️ On it now: leave room around the cards so their shadow/glow isn't clipped (left + bottom) */
+.callout[data-callout="bookshelf"],
+.callout[data-callout="bookshelf"] > .callout-content { overflow: visible !important; }
+:is(.bookshelf.postershelf, .callout[data-callout="bookshelf"]) .bases-cards-group {
+  padding: 6px 8px 18px !important;
+}
+.theme-light :is(.bookshelf.postershelf, .callout[data-callout="bookshelf"]) .bases-cards-item {
+  box-shadow:
+    0 0 0 1px hsla(var(--ui-accent-a), .18),
+    0 4px 12px rgba(0, 0, 0, .12) !important;
+}
+
+/* ═══ fix (clip + long text) — backup: .obsidian/snippets/bookshelf.css.bak-before-clip-fix ═══ */
+/* 🌱 Areas: room above/around the cards so the hover lift isn't cut off */
+.callout[data-callout="gallery"],
+.callout[data-callout="gallery"] > .callout-content { overflow: visible !important; }
+.callout[data-callout="gallery"] .bases-cards-group {
+  padding: 8px 8px 14px !important;
+}
+
+/* ▶️ On it now: long lines end with "…" instead of running off the card */
+:is(.bookshelf.postershelf, .callout[data-callout="bookshelf"]) .bases-cards-property,
+:is(.bookshelf.postershelf, .callout[data-callout="bookshelf"]) .bases-cards-line,
+:is(.bookshelf.postershelf, .callout[data-callout="bookshelf"]) .bases-cards-line > * {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+:is(.bookshelf.postershelf, .callout[data-callout="bookshelf"]) .bases-cards-line .value-list-container,
+:is(.bookshelf.postershelf, .callout[data-callout="bookshelf"]) .bases-cards-line .value-list-element {
+  display: inline;
+  flex-wrap: nowrap;
+}
+
+/* 🩹 Callout wrappers: switch off Obsidian's callout blend mode
+   (in dark mode callouts use mix-blend-mode: lighten, which washes out the cards in reading view) */
+.callout:is([data-callout="tiles"], [data-callout="gallery"], [data-callout="bookshelf"], [data-callout="buttons"]) {
+  --callout-blend-mode: normal;
+  mix-blend-mode: normal !important;
+}
+/* 🩹 Minimal dims images to 70% in dark mode (full only on hover); keep base card pictures at full strength */
+.theme-dark .bases-cards-item img,
+.theme-dark .bases-cards-cover img {
+  opacity: 1 !important;
+}
+
+/* ───────────────────────────────────────────────
+   ➡️ "More areas" mini-card under Home Areas   > [!more]
+   sits over the bottom-right corner of the last card; on hover the text turns into an arrow
+   ─────────────────────────────────────────────── */
+.callout[data-callout="more"] {
+  background: none; border: none; box-shadow: none; padding: 0;
+  margin: -34px 8px 14px 0;
+  position: relative; z-index: 5;
+  overflow: visible !important;
+  mix-blend-mode: normal !important;
+}
+.callout[data-callout="more"] > .callout-title { display: none; }
+.callout[data-callout="more"] > .callout-content { padding: 0; overflow: visible; }
+.callout[data-callout="more"] > .callout-content > p { margin: 0; text-align: right; }
+.callout[data-callout="more"] a {
+  position: relative;
+  display: inline-block;
+  min-width: 112px;
+  padding: 5px 14px;
+  border-radius: 8px;
+  background: var(--background-secondary);
+  border: 1px solid hsla(var(--ui-accent-a), .25);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .35);
+  font-family: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace;
+  font-size: 11.5px; font-weight: 600; letter-spacing: .04em;
+  text-align: center;
+  color: var(--text-normal) !important;
+  text-decoration: none !important;
+  transition: color .2s ease, border-color .25s ease, box-shadow .25s ease;
+}
+/* arrow shaft (grows from the left) */
+.callout[data-callout="more"] a::before {
+  content: "";
+  position: absolute; left: 16px; top: 50%;
+  width: 0; height: 2px; margin-top: -1px;
+  border-radius: 2px;
+  background: var(--ui-accent);
+  transition: width .35s cubic-bezier(.2, .8, .2, 1);
+}
+/* arrow head (pops in at the end) */
+.callout[data-callout="more"] a::after {
+  content: "";
+  position: absolute; right: 16px; top: 50%;
+  width: 7px; height: 7px;
+  border-top: 2px solid var(--ui-accent); border-right: 2px solid var(--ui-accent);
+  transform: translateY(-50%) rotate(45deg) scale(0);
+  opacity: 0;
+  transition: transform .2s ease .2s, opacity .2s ease .2s;
+}
+.callout[data-callout="more"] a:hover {
+  color: transparent !important;
+  border-color: hsla(var(--ui-accent-a), .8);
+  box-shadow: 0 0 14px hsla(var(--ui-accent-a), .3), 0 4px 12px rgba(0, 0, 0, .35);
+}
+.callout[data-callout="more"] a:hover::before { width: calc(100% - 34px); }
+.callout[data-callout="more"] a:hover::after { transform: translateY(-50%) rotate(45deg) scale(1); opacity: 1; }
+.theme-light .callout[data-callout="more"] a { box-shadow: 0 2px 6px rgba(0, 0, 0, .1); border-color: hsla(var(--ui-accent-a), .3); }
+.theme-light .callout[data-callout="more"] a::before { background: var(--ui-accent); }
+.theme-light .callout[data-callout="more"] a::after { border-color: var(--ui-accent); }
+
+
+/* ➡️ "More areas" v2: bigger, overlaps the last card's bottom-right corner, bigger arrow on hover */
+.callout[data-callout="more"] {
+  margin: -60px 26px 22px 0 !important;
+}
+.callout[data-callout="more"] a {
+  min-width: 150px;
+  padding: 9px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .45);
+}
+.callout[data-callout="more"] a::before { left: 18px; height: 3px; margin-top: -1.5px; }
+.callout[data-callout="more"] a::after  { right: 18px; width: 10px; height: 10px; border-top-width: 3px; border-right-width: 3px; }
+.callout[data-callout="more"] a:hover::before { width: calc(100% - 38px); }
+/* ➡️ "More areas" v3: ~20% sticks out past the card's right edge */
+.callout[data-callout="more"] { margin-right: -6px !important; }
+
+/* ➡️ "More areas": no hover preview popup for this one link (other links keep their previews) */
+body:has(.callout[data-callout="more"] a:hover) .popover.hover-popover {
+  display: none !important;
+}
+
+/* 🎯 tiles v4b: a bit more room for names (slightly tighter letters) */
+.callout[data-callout="tiles"] .bases-cards-property.mod-title .bases-cards-line { letter-spacing: .04em; }
+
+/* 🎯 tiles: smaller folder icons on Home (2026-10-19). Revert: delete this block + Now.base imageAspectRatio back to 0.75 */
+.callout[data-callout="tiles"] .bases-cards-cover { background-size: 68% !important; }
+
+/* ⚙️ Properties bar always at the TOP of bannered notes (2026-10-19).
+   Simple Banner's autohide moves the bar above the title with JS, but on app start
+   it runs before Reading view renders, so the bar ended up under the title.
+   Pin it to the top instead of relying on DOM order. Revert: delete this block. */
+body.sb-autohide .workspace-leaf-content[data-sb] .markdown-preview-view { position: relative; }
+body.sb-autohide .workspace-leaf-content[data-sb] .markdown-preview-view .metadata-container,
+body.sb-autohide .workspace-leaf-content[data-sb] .cm-scroller .metadata-container { top: 0; }
+
+
+/* 🔘 Meta Bind buttons (➕ Module / ➕ Course Chapter / ➕ Atomic note) inside [!buttons]: same pill look as the link buttons (2026-10-20) */
+.callout[data-callout="buttons"] { --mb-border-radius: 999px; }
+.callout[data-callout="buttons"] .mb-button { display: inline-flex; margin: 0; }
+/* Meta Bind wraps inline buttons in a .mb-button-group whose radius rule outranks ours → force the pill */
+.callout[data-callout="buttons"] .mb-button-group > .mb-button > .mb-button-inner,
+.callout[data-callout="buttons"] .mb-button-inner { border-radius: 999px !important; }
+.callout[data-callout="buttons"] .mb-button-inner {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: auto; padding: 7px 16px; margin: 0;
+  border-radius: 999px;
+  border: 1px solid hsla(var(--ui-accent-a), .35);
+  background: var(--background-secondary);
+  color: var(--text-normal);
+  font-family: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace;
+  font-size: 12.5px; font-weight: 600; letter-spacing: .03em;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .25);
+  cursor: pointer;
+}
+.callout[data-callout="buttons"] .mb-button-inner:hover {
+  background: hsla(var(--ui-accent-a), .14);
+  border-color: hsla(var(--ui-accent-a), .85);
+  color: var(--ui-accent);
+  box-shadow: 0 0 14px hsla(var(--ui-accent-a), .35);
+}
+.theme-light .callout[data-callout="buttons"] .mb-button-inner {
+  background: var(--background-primary);
+  border-color: hsla(var(--ui-accent-a), .35);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .06), 0 2px 6px rgba(0, 0, 0, .06);
+}
+.theme-light .callout[data-callout="buttons"] .mb-button-inner:hover {
+  background: hsla(var(--ui-accent-a), .10); border-color: hsla(var(--ui-accent-a), .8); color: var(--ui-accent);
+}

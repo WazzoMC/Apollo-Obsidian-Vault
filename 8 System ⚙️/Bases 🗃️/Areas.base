@@ -1,0 +1,16 @@
+filters:
+  and:
+    - categories.contains(link("🌱 Areas"))
+    - '!file.inFolder("8 System ⚙️/Templates 📎")'
+views:
+  - type: cards
+    name: Areas
+    order:
+      - file.name
+    sort:
+      - property: file.name
+        direction: ASC
+    image: note.cover
+    imageFit: cover
+    imageAspectRatio: 0.85
+    cardSize: 160

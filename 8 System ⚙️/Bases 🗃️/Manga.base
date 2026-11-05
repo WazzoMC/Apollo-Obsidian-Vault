@@ -1,0 +1,132 @@
+filters:
+  and:
+  - categories.contains(link("🗯️ Manga"))
+  - '!file.inFolder("8 System ⚙️/Templates 📎")'
+formulas:
+  shelf: html(if(status, status, "") + if(rating, " <span class='shelf-stars'>" + "★".repeat(rating) + "</span>", ""))
+properties:
+  file.name:
+    displayName: Title
+  note.author:
+    displayName: Author
+  note.series:
+    displayName: Series
+  note.published:
+    displayName: Year
+  note.status:
+    displayName: Status
+  note.rating:
+    displayName: Rating
+  formula.shelf:
+    displayName: Shelf
+views:
+- type: cards
+  name: 🗯️ Shelf
+  order:
+  - file.name
+  - author
+  - formula.shelf
+  sort:
+  - property: status
+    direction: ASC
+  - property: author
+    direction: ASC
+  - property: series
+    direction: ASC
+  - property: published
+    direction: ASC
+  image: note.cover
+  imageFit: cover
+  imageAspectRatio: 1.5
+  cardSize: 150
+- type: cards
+  name: ▶️ Reading
+  filters:
+    and:
+    - status == "▶️ on it"
+  order:
+  - file.name
+  - author
+  - formula.shelf
+  sort:
+  - property: author
+    direction: ASC
+  - property: series
+    direction: ASC
+  - property: published
+    direction: ASC
+  image: note.cover
+  imageFit: cover
+  imageAspectRatio: 1.5
+  cardSize: 150
+- type: cards
+  name: 🔖 Want to read
+  filters:
+    and:
+    - status == "🔖 want"
+  order:
+  - file.name
+  - author
+  - formula.shelf
+  sort:
+  - property: author
+    direction: ASC
+  - property: series
+    direction: ASC
+  - property: published
+    direction: ASC
+  image: note.cover
+  imageFit: cover
+  imageAspectRatio: 1.5
+  cardSize: 150
+- type: cards
+  name: ✅ Read
+  filters:
+    and:
+    - status == "✅ done"
+  order:
+  - file.name
+  - author
+  - formula.shelf
+  sort:
+  - property: author
+    direction: ASC
+  - property: series
+    direction: ASC
+  - property: published
+    direction: ASC
+  image: note.cover
+  imageFit: cover
+  imageAspectRatio: 1.5
+  cardSize: 150
+- type: table
+  name: 📋 List
+  order:
+  - file.name
+  - author
+  - series
+  - published
+  - status
+  - rating
+  sort:
+  - property: author
+    direction: ASC
+  - property: series
+    direction: ASC
+  - property: published
+    direction: ASC
+- type: table
+  name: Author
+  filters:
+    and:
+    - list(author).contains(this)
+  order:
+  - file.name
+  - series
+  - published
+  - status
+  sort:
+  - property: series
+    direction: ASC
+  - property: published
+    direction: ASC

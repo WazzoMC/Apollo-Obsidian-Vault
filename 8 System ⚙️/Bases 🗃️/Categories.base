@@ -1,0 +1,12 @@
+filters:
+  and:
+    - file.inFolder("8 System ⚙️/Categories 🗂️")
+views:
+  - type: cards
+    name: Categories
+    order:
+      - file.name
+    sort:
+      - property: order
+        direction: ASC
+    cardSize: 140

@@ -1,0 +1,85 @@
+filters:
+  and:
+  - categories.contains(link("✍️ Writing"))
+  - '!file.inFolder("8 System ⚙️/Templates 📎")'
+views:
+- type: table
+  name: ✍️ All
+  order:
+  - file.name
+  - kind
+  - stage
+  - topics
+  - file.mtime
+  sort:
+  - property: stage
+    direction: ASC
+  - property: file.mtime
+    direction: DESC
+  groupBy:
+    property: kind
+    direction: ASC
+- type: table
+  name: 💡 Ideas
+  filters:
+    and:
+    - stage == "💡 idea"
+  order:
+  - file.name
+  - kind
+  - stage
+  - topics
+  - file.mtime
+  sort:
+  - property: stage
+    direction: ASC
+  - property: file.mtime
+    direction: DESC
+- type: table
+  name: ✏️ Drafts
+  filters:
+    and:
+    - stage == "✏️ draft"
+  order:
+  - file.name
+  - kind
+  - stage
+  - topics
+  - file.mtime
+  sort:
+  - property: stage
+    direction: ASC
+  - property: file.mtime
+    direction: DESC
+- type: table
+  name: 🔁 Revising
+  filters:
+    and:
+    - stage == "🔁 revising"
+  order:
+  - file.name
+  - kind
+  - stage
+  - topics
+  - file.mtime
+  sort:
+  - property: stage
+    direction: ASC
+  - property: file.mtime
+    direction: DESC
+- type: table
+  name: ✅ Final
+  filters:
+    and:
+    - stage == "✅ final"
+  order:
+  - file.name
+  - kind
+  - stage
+  - topics
+  - file.mtime
+  sort:
+  - property: stage
+    direction: ASC
+  - property: file.mtime
+    direction: DESC

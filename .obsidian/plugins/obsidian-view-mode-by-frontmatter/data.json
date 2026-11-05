@@ -1,0 +1,17 @@
+{
+  "debounceTimeout": 300,
+  "ignoreOpenFiles": true,
+  "ignoreForceViewAll": false,
+  "folders": [
+    {
+      "folder": "2 Journal ☁️",
+      "viewMode": "obsidianUIMode: preview"
+    }
+  ],
+  "files": [
+    {
+      "filePattern": "",
+      "viewMode": ""
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+# macOS / Windows junk
+.DS_Store
+Thumbs.db
+
+# Obsidian: per-device layout and trash
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.trash/
+
+# AI agent plugin folders (Claudian, Claude Code, etc.)
+.claudian/
+.claude/
+
+# Personal working notes, never published
+🤖 Claude TODO*.md

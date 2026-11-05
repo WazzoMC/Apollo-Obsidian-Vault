@@ -1,0 +1,17 @@
+filters:
+  and:
+    - file.hasLink(this)
+    - file.path != this.file.path
+    - '!file.inFolder("8 System ⚙️/Templates 📎")'
+views:
+  - type: table
+    name: Backlinks
+    order:
+      - file.name
+      - categories
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC
+    columnSize:
+      file.name: 336

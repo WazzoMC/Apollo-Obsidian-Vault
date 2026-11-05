@@ -1,0 +1,51 @@
+{
+  "data_version": 2,
+  "command_timeout": 5,
+  "templates_folder": "8 System ⚙️/Templates 📎",
+  "templates_pairs": [],
+  "trigger_on_file_creation_mode": "folder",
+  "auto_jump_to_cursor": true,
+  "jump_to_cursor_after_file_name": false,
+  "shell_path": "",
+  "user_scripts_folder": "",
+  "folder_templates": [
+    {
+      "folder": "5 Evergreen 🌲",
+      "template": "8 System ⚙️/Templates 📎/🌲 Evergreen Template.md"
+    },
+    {
+      "folder": "6 Bookshelf 📖/Books & Manga 📚🗯️",
+      "template": "8 System ⚙️/Templates 📎/📖 Book Template.md"
+    },
+    {
+      "folder": "6 Bookshelf 📖/Movies, Shows & Anime 🎬",
+      "template": "8 System ⚙️/Templates 📎/🎬 Movie or Show Template.md"
+    },
+    {
+      "folder": "6 Bookshelf 📖/Games 🎮",
+      "template": "8 System ⚙️/Templates 📎/🎮 Game Template.md"
+    },
+    {
+      "folder": "7 People 👥",
+      "template": "8 System ⚙️/Templates 📎/👤 Person Template.md"
+    }
+  ],
+  "file_templates": [],
+  "syntax_highlighting": true,
+  "syntax_highlighting_mobile": false,
+  "enabled_templates_hotkeys": [
+    "8 System ⚙️/Templates 📎/🎯 Project Template.md",
+    "8 System ⚙️/Templates 📎/🌱 Area Template.md",
+    "8 System ⚙️/Templates 📎/🤝 Meeting Template.md",
+    "8 System ⚙️/Templates 📎/🕹️ Game Guide Template.md",
+    "8 System ⚙️/Templates 📎/🎓 Course Template.md",
+    "8 System ⚙️/Templates 📎/🌲 Evergreen Template.md",
+    "8 System ⚙️/Templates 📎/📚 Source Template.md",
+    "8 System ⚙️/Templates 📎/⚛️ Atomic Template.md",
+    "8 System ⚙️/Templates 📎/✍️ Writing Template.md",
+    "8 System ⚙️/Templates 📎/🧩 Module Template.md",
+    "8 System ⚙️/Templates 📎/📑 Course Chapter Template.md"
+  ],
+  "startup_templates": [],
+  "ignore_folders_on_creation": []
+}

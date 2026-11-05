@@ -1,0 +1,17 @@
+filters:
+  and:
+    - categories.contains(link("📑 Course Chapters"))
+    - '!file.inFolder("8 System ⚙️/Templates 📎")'
+views:
+  - type: table
+    name: Course Chapters
+    groupBy:
+      property: file.folder
+      direction: ASC
+    order:
+      - order
+      - file.name
+      - status
+    sort:
+      - property: order
+        direction: ASC

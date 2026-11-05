@@ -1,0 +1,23 @@
+{
+  "folder": "6 Bookshelf 📖/Games 🎮",
+  "fileNameFormat": "{{title}}",
+  "frontmatter": "categories:\n  - \"[[🎮 Games]]\"\ntitle: \"{{title}}\"\ndeveloper: \"{{developer}}\"\npublisher: \"{{publisher}}\"\nplatform: \"{{platform}}\"\nreleased: {{firstReleaseDate}}\ngenre: [{{genre}}]\nfranchise: \"{{franchise}}\"\ncover: \"{{coverLargeUrl}}\"\nigdb: \"{{igdbUrl}}\"\nstatus: 🔖 want\nrating:",
+  "content": "> [!abstract]- About\n> {{summary}}\n\n## 💭 Thoughts\n\n\n## 🕹️ Guides & tips\n![[Backlinks.base]]\n",
+  "useDefaultFrontmatter": false,
+  "defaultFrontmatterKeyType": "Camel Case",
+  "templateFile": "",
+  "twitchClientId": "",
+  "twitchClientSecret": "",
+  "igdbAccessToken": "",
+  "igdbAccessTokenExpiresAt": 0,
+  "openPageOnCompletion": true,
+  "showCoverImageInSearch": true,
+  "enableCoverImageSave": false,
+  "coverImagePath": "",
+  "enableScreenshotSave": false,
+  "screenshotImagePath": "",
+  "enableTranslation": false,
+  "translationTargetLanguage": "auto",
+  "deeplApiKey": "",
+  "uiLanguage": "auto"
+}

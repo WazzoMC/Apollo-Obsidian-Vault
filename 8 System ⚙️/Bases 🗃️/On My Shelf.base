@@ -1,0 +1,30 @@
+filters:
+  and:
+    - status == "▶️ on it"
+    - or:
+        - categories.contains(link("📖 Books"))
+        - categories.contains(link("🎬 Movies & Shows"))
+        - categories.contains(link("🍥 Anime"))
+        - categories.contains(link("🗯️ Manga"))
+        - categories.contains(link("🎮 Games"))
+    - '!file.inFolder("8 System ⚙️/Templates 📎")'
+formulas:
+  maker: if(author, author, if(director, director, if(creator, creator, if(developer, developer, ""))))
+  typ: if(format == "TV", "📺 TV", if(format == "Movie", "🎬 Movie", ""))
+  by: if(formula.typ != "", formula.typ + if(formula.maker != "", " · " + formula.maker, ""), formula.maker)
+  shelf: html(if(status, status, "") + if(rating, " <span class='shelf-stars'>" + "★".repeat(rating) + "</span>", ""))
+views:
+  - type: cards
+    name: On it now
+    order:
+      - categories
+      - formula.shelf
+    sort:
+      - property: categories
+        direction: DESC
+      - property: file.mtime
+        direction: DESC
+    image: note.cover
+    imageFit: cover
+    imageAspectRatio: 1.5
+    cardSize: 150

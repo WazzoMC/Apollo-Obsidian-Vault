@@ -1,0 +1,25 @@
+filters:
+  and:
+  - categories.contains(link("🎯 Projects"))
+  - '!file.inFolder("8 System ⚙️/Templates 📎")'
+views:
+- type: cards
+  name: Active
+  filters:
+    and:
+    - status == "🟢 active"
+  order:
+  - file.name
+  - deadline
+  sort:
+  - property: deadline
+    direction: ASC
+- type: table
+  name: All
+  order:
+  - file.name
+  - status
+  - deadline
+  sort:
+  - property: status
+    direction: ASC

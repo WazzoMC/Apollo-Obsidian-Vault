@@ -1,0 +1,15 @@
+# Shown on course chapters: atomic notes made from this chapter (their `from` points here)
+filters:
+  and:
+    - list(from).contains(this)
+    - '!file.inFolder("8 System ⚙️/Templates 📎")'
+views:
+  - type: table
+    name: Made from this
+    order:
+      - file.name
+      - topics
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC

@@ -1,0 +1,10 @@
+filters:
+  and:
+  - categories.contains(link("🎓 Courses"))
+  - '!file.inFolder("8 System ⚙️/Templates 📎")'
+views:
+- type: cards
+  name: Courses
+  order:
+  - file.name
+  - status

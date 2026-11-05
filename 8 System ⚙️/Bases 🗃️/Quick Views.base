@@ -1,0 +1,29 @@
+views:
+  - type: table
+    name: Inbox
+    filters:
+      and:
+        - file.inFolder("1 Inbox 📥")
+    order:
+      - file.name
+      - file.ctime
+    sort:
+      - property: file.ctime
+        direction: DESC
+    columnSize:
+      file.name: 279
+  - type: table
+    name: Recent
+    filters:
+      and:
+        - file.ext == "md"
+        - '!file.inFolder("8 System ⚙️")'
+        - '!file.inFolder("2 Journal ☁️")'
+    order:
+      - file.name
+      - categories
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC
+    limit: 10

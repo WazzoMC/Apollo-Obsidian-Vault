@@ -1,0 +1,28 @@
+---
+categories:
+  - "[[🎮 Games]]"
+title: Stardew Valley
+developer: ConcernedApe
+publisher: Chucklefish Games, ConcernedApe, 505 Games
+platform: PlayStation 4, Linux, Nintendo Switch 2, Android, PC (Microsoft Windows), iOS, Mac, Wii U, PlayStation Vita, Xbox One, Nintendo Switch
+released: 2016-02-26
+genre:
+  - Role-playing (RPG)
+  - Simulator
+  - Strategy
+  - Adventure
+  - Indie
+franchise: ""
+cover: https://images.igdb.com/igdb/image/upload/t_cover_big_2x/coa93h.jpg
+igdb: https://www.igdb.com/games/stardew-valley
+status: ▶️ on it
+rating: 4
+---
+> [!abstract]- About
+> Stardew Valley is an open-ended country-life RPG! You’ve inherited your grandfather’s old farm plot in Stardew Valley. Armed with hand-me-down tools and a few coins, you set out to begin your new life. Can you learn to live off the land and turn these overgrown fields into a thriving home? It won’t be easy. Ever since Joja Corporation came to town, the old ways of life have all but disappeared. The community center, once the town’s most vibrant hub of activity, now lies in shambles. But the valley seems full of opportunity. With a little dedication, you might just be the one to restore Stardew Valley to greatness!
+
+## 💭 Thoughts
+
+
+## 🕹️ Guides & tips
+![[Backlinks.base]]

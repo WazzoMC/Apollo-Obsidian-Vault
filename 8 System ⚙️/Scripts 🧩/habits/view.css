@@ -1,0 +1,218 @@
+/* 🔁 Habit tracker look. Loaded automatically by Dataview together with view.js (no snippet toggle needed).
+   Uses theme colours only, so dark and light mode both work. Glow on hover, no lifting. */
+
+/* Keep the tracker centred like normal text. Minimal treats any block with a <table> as a "wide table" and shifts it right. */
+.markdown-preview-view.is-readable-line-width .markdown-preview-sizer > div:has(.hb),
+.markdown-source-view.mod-cm6.is-readable-line-width .cm-contentContainer.cm-contentContainer > .cm-content > div:has(.hb) {
+  width: var(--line-width);
+  max-width: var(--max-width);
+  margin-inline: var(--content-margin) !important;
+  padding-inline-start: 0;
+}
+
+.hb {
+  --hb-r: 12px;
+  --hb-green: rgba(var(--color-green-rgb), 0.22);
+  --hb-red: rgba(var(--color-red-rgb), 0.18);
+  --hb-yellow: rgba(var(--color-yellow-rgb), 0.22);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 4px 0 14px;
+  font-variant-numeric: tabular-nums;
+}
+.hb .hb-card {
+  background: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--hb-r);
+  padding: 10px 14px;
+  min-width: 0;
+}
+.hb .hb-sub { font-size: 0.8em; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; }
+.hb .hb-faint { color: var(--text-faint); font-size: 0.85em; }
+
+/* ── status + stats ── */
+.hb .hb-hero { display: flex; flex-wrap: wrap; gap: 10px; }
+.hb .hb-status { flex: 2 1 220px; }
+.hb .hb-date { font-size: 0.75em; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.hb .hb-big { font-size: 1.35em; font-weight: 700; margin: 2px 0; }
+.hb .hb-big.hb-good { color: var(--color-green); }
+.hb .hb-stats { flex: 1 1 240px; display: flex; gap: 10px; }
+.hb .hb-stat { flex: 1; text-align: center; padding: 8px 6px; }
+.hb .hb-stat-n { font-size: 1.25em; font-weight: 700; white-space: nowrap; }
+.hb .hb-stat-l { font-size: 0.72em; color: var(--text-muted); }
+
+/* ── never miss twice ── */
+.hb .hb-warn {
+  border-radius: var(--hb-r);
+  padding: 9px 14px;
+  background: rgba(var(--color-orange-rgb), 0.14);
+  border: 1px solid rgba(var(--color-orange-rgb), 0.45);
+  font-size: 0.92em;
+}
+
+/* ── tap-to-log chips ── */
+.hb .hb-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.hb .hb-label-sm {
+  width: 7.5em; white-space: nowrap; font-size: 0.7em; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text-faint); font-family: var(--font-monospace);
+}
+.hb .hb-chips { display: flex; flex-wrap: wrap; gap: 7px; flex: 1; }
+.hb .hb-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  height: auto; padding: 5px 12px; margin: 0;
+  border-radius: 999px;
+  font-size: 0.88em; font-family: inherit; line-height: 1.3;
+  background: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  color: var(--text-muted);
+  box-shadow: none;
+  cursor: pointer;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.hb .hb-chip:hover { box-shadow: 0 0 0 3px rgba(var(--color-green-rgb), 0.16); border-color: rgba(var(--color-green-rgb), 0.5); }
+.hb .hb-chip.hb-on {
+  background: var(--hb-green);
+  border-color: rgba(var(--color-green-rgb), 0.6);
+  color: var(--text-normal);
+}
+.hb .hb-num { cursor: text; }
+.hb .hb-num input {
+  width: 11em; height: auto; padding: 0 2px; margin: 0;
+  background: transparent; border: none; box-shadow: none;
+  font-size: 1em; color: var(--text-normal);
+}
+.hb .hb-num input:focus { box-shadow: none; outline: none; }
+.hb .hb-unit { color: var(--text-faint); }
+
+/* ── Top 3 ── */
+.hb .hb-top3 ol { margin: 0; padding-left: 1.4em; }
+.hb .hb-top3 li { margin: 2px 0; }
+
+/* ── week grid ── */
+.hb .hb-panels { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-start; }
+.hb .hb-gridwrap {
+  flex: 3 1 440px; min-width: 0; overflow-x: auto;
+  background: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--hb-r);
+  padding: 6px 8px;
+}
+.hb .hb-side { flex: 1 1 210px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.hb .hb-grid tr { background: none; }
+.hb table.hb-grid { border-collapse: separate; border-spacing: 3px; margin: 0; width: 100%; font-size: 0.82em; }
+.hb .hb-grid th,
+.hb .hb-grid td { border: none; background: none; padding: 3px 6px; text-align: center; white-space: nowrap; }
+.hb .hb-grid th { color: var(--text-muted); font-weight: 500; font-family: var(--font-monospace); }
+.hb .hb-grid th.hb-now { color: var(--color-green); font-weight: 700; }
+.hb .hb-grid td.hb-label { text-align: left; padding-right: 12px; overflow: hidden; text-overflow: ellipsis; max-width: 11em; }
+.hb .hb-grid tr.hb-minrow td.hb-label { font-weight: 700; }
+.hb .hb-grid tr.hb-minrow td { padding-bottom: 6px; }
+.hb .hb-grid tr.hb-sep td { padding-top: 9px; }
+.hb .hb-grid td.hb-cell { width: 1.9em; border-radius: 6px; font-family: var(--font-monospace); }
+.hb .hb-cell.hb-done { background: var(--hb-green); color: var(--color-green); }
+.hb .hb-cell.hb-miss { background: var(--hb-red); color: var(--color-red); }
+.hb .hb-cell.hb-today { box-shadow: inset 0 0 0 1px var(--background-modifier-border-hover); color: var(--text-faint); }
+.hb .hb-cell.hb-off,
+.hb .hb-cell.hb-future,
+.hb .hb-cell.hb-none { color: var(--text-faint); }
+.hb .hb-cell.hb-click { cursor: pointer; transition: box-shadow 0.15s ease; }
+.hb .hb-cell.hb-click:hover { box-shadow: 0 0 0 2px rgba(var(--color-green-rgb), 0.45); }
+.hb .hb-grid td.hb-rate { border-radius: 6px; font-weight: 600; }
+.hb .hb-r-good { background: var(--hb-green); }
+.hb .hb-r-mid { background: var(--hb-yellow); }
+.hb .hb-r-bad { background: var(--hb-red); }
+.hb .hb-up { color: var(--color-green); }
+.hb .hb-down { color: var(--color-red); }
+.hb .hb-delta, .hb .hb-streak { color: var(--text-muted); }
+.hb .hb-alltime { width: auto; }
+
+/* ── number bars (screen time, steps) ── */
+.hb .hb-bars { font-family: var(--font-monospace); font-size: 0.78em; }
+.hb .hb-bar-row { display: grid; grid-template-columns: 1.1em 3.2em 1fr; gap: 6px; align-items: center; margin: 2px 0; }
+.hb .hb-track { height: 9px; }
+.hb .hb-bar { height: 9px; border-radius: 4px; }
+.hb .hb-bar-ok { background: var(--color-green); opacity: 0.75; }
+.hb .hb-bar-bad { background: var(--color-red); opacity: 0.75; }
+.hb .hb-bar-foot { margin-top: 6px; font-size: 0.95em; }
+
+/* ── heatmap ── */
+.hb .hb-heat {
+  display: grid; grid-auto-flow: column;
+  grid-template-rows: repeat(7, 13px); grid-auto-columns: 13px; gap: 3px;
+  overflow-x: auto; padding: 2px;
+}
+.hb .hb-h { width: 13px; height: 13px; border-radius: 3px; background: var(--background-modifier-border); }
+.hb .hb-h-none, .hb .hb-h-future { background: transparent; box-shadow: inset 0 0 0 1px var(--background-modifier-border); }
+.hb .hb-h-future { box-shadow: none; }
+.hb .hb-h-l0 { background: var(--hb-red); }
+.hb .hb-h-l1 { background: rgba(var(--color-green-rgb), 0.22); }
+.hb .hb-h-l2 { background: rgba(var(--color-green-rgb), 0.42); }
+.hb .hb-h-l3 { background: rgba(var(--color-green-rgb), 0.65); }
+.hb .hb-h-l4 { background: var(--color-green); }
+.hb .hb-h-today { box-shadow: 0 0 0 1.5px var(--text-muted); }
+.hb .hb-legend { display: flex; align-items: center; gap: 3px; margin-top: 8px; }
+
+.hb .hb-weight { font-family: var(--font-monospace); font-size: 0.9em; }
+
+/* phone */
+@media (max-width: 600px) {
+  .hb .hb-stats { flex-basis: 100%; }
+  .hb .hb-label-sm { width: 100%; }
+  .hb .hb-gridwrap { flex-basis: 100%; }
+}
+
+/* ── compact pass (2026-10-19): less scrolling on Home ── */
+.hb { gap: 8px; }
+.hb .hb-card { padding: 8px 12px; }
+.hb .hb-big { font-size: 1.2em; margin: 0; }
+.hb .hb-stat { padding: 6px; }
+.hb .hb-stat-n { font-size: 1.1em; }
+.hb table.hb-grid { border-spacing: 2px; }
+.hb .hb-grid th, .hb .hb-grid td { padding: 1px 6px; line-height: 1.6; }
+.hb .hb-grid td.hb-label { max-width: none; }
+.hb .hb-grid tr.hb-sep td { padding-top: 6px; }
+.hb .hb-gridwrap { padding: 4px 8px; }
+.hb .hb-h2 { font-weight: 700; color: var(--text-muted); margin-top: 8px; font-size: 0.95em; }
+
+/* ── fit pass (2026-10-19): week table always fits, squares stay square ── */
+.hb table.hb-week { table-layout: fixed; width: 100%; min-width: 30em; }
+.hb .hb-week col.hb-col-label { width: 26%; }
+.hb .hb-week col.hb-col-day { width: 7%; }
+.hb .hb-week col.hb-col-stat { width: 8%; }
+.hb .hb-week th, .hb .hb-week td { padding: 1px 2px; overflow: hidden; text-overflow: ellipsis; }
+.hb .hb-week td.hb-label { padding-right: 6px; }
+.hb .hb-grid td.hb-cell { width: auto; background: none; box-shadow: none; }
+.hb .hb-sq {
+  display: inline-block; width: 1.9em; line-height: 1.6em;
+  border-radius: 6px; font-family: var(--font-monospace); text-align: center;
+}
+.hb .hb-sq.hb-done { background: var(--hb-green); color: var(--color-green); }
+.hb .hb-sq.hb-miss { background: var(--hb-red); color: var(--color-red); }
+.hb .hb-sq.hb-today { box-shadow: inset 0 0 0 1px var(--background-modifier-border-hover); color: var(--text-faint); }
+.hb .hb-sq.hb-off, .hb .hb-sq.hb-future, .hb .hb-sq.hb-none { color: var(--text-faint); }
+.hb .hb-cell.hb-click:hover { box-shadow: none; }
+.hb .hb-cell.hb-click:hover .hb-sq { box-shadow: 0 0 0 2px rgba(var(--color-green-rgb), 0.45); }
+.hb .hb-week td.hb-rate { border-radius: 6px; }
+
+/* ── grid pass (2026-10-19): week view is a CSS grid, fills its box at every zoom ── */
+.hb .hb-gridwrap { overflow: visible; }
+.hb .hb-wk {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) repeat(7, minmax(0, 1fr)) repeat(3, minmax(0, 1.15fr));
+  align-items: center;
+  row-gap: 2px;
+  font-size: 0.82em;
+  width: 100%;
+}
+.hb .hb-wk > div { min-width: 0; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 1px 2px; }
+.hb .hb-wk-h { color: var(--text-muted); font-family: var(--font-monospace); font-weight: 500; }
+.hb .hb-wk-h.hb-now { color: var(--color-green); font-weight: 700; }
+.hb .hb-wk > .hb-wk-label { text-align: left; padding-right: 8px; }
+.hb .hb-wk > .hb-minrow { padding-bottom: 5px; }
+.hb .hb-wk > .hb-minrow.hb-wk-label { font-weight: 700; }
+.hb .hb-wk > .hb-sep { padding-top: 7px; }
+.hb .hb-wk .hb-rate { display: inline-block; min-width: 3.2em; border-radius: 6px; font-weight: 600; padding: 0 4px; }
+.hb .hb-wk-cell.hb-click { cursor: pointer; }
+.hb .hb-wk-cell.hb-click:hover .hb-sq { box-shadow: 0 0 0 2px rgba(var(--color-green-rgb), 0.45); }
+@media (max-width: 600px) { .hb .hb-wk { font-size: 0.75em; } }

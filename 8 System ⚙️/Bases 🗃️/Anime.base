@@ -1,0 +1,140 @@
+filters:
+  and:
+    - categories.contains(link("🍥 Anime"))
+    - '!file.inFolder("8 System ⚙️/Templates 📎")'
+formulas:
+  maker: if(director, director, if(creator, creator, ""))
+  typ: if(format == "TV", "📺 TV", if(format == "Movie", "🎬 Movie", ""))
+  by: if(formula.typ != "", formula.typ + if(formula.maker != "", " · " + formula.maker, ""), formula.maker)
+  shelf: html(if(status, status, "") + if(rating, " <span class='shelf-stars'>" + "★".repeat(rating) + "</span>", ""))
+properties:
+  file.name:
+    displayName: Title
+  formula.by:
+    displayName: Made by
+  formula.shelf:
+    displayName: Shelf
+  note.released:
+    displayName: Released
+  note.format:
+    displayName: Type
+  note.series:
+    displayName: Series
+views:
+  - type: cards
+    name: 🍥 Shelf
+    order:
+      - file.name
+      - formula.by
+      - formula.shelf
+    sort:
+      - property: status
+        direction: ASC
+      - property: series
+        direction: ASC
+      - property: order
+        direction: ASC
+      - property: formula.maker
+        direction: ASC
+      - property: released
+        direction: ASC
+    image: note.cover
+    imageFit: cover
+    imageAspectRatio: 1.5
+    cardSize: 150
+  - type: cards
+    name: ▶️ Watching
+    filters:
+      and:
+        - status == "▶️ on it"
+    order:
+      - file.name
+      - formula.by
+      - formula.shelf
+    sort:
+      - property: status
+        direction: ASC
+      - property: series
+        direction: ASC
+      - property: order
+        direction: ASC
+      - property: formula.maker
+        direction: ASC
+      - property: released
+        direction: ASC
+    image: note.cover
+    imageFit: cover
+    imageAspectRatio: 1.5
+    cardSize: 150
+  - type: cards
+    name: 🔖 Watchlist
+    filters:
+      and:
+        - status == "🔖 want"
+    order:
+      - file.name
+      - formula.by
+      - formula.shelf
+    sort:
+      - property: status
+        direction: ASC
+      - property: series
+        direction: ASC
+      - property: order
+        direction: ASC
+      - property: formula.maker
+        direction: ASC
+      - property: released
+        direction: ASC
+    image: note.cover
+    imageFit: cover
+    imageAspectRatio: 1.5
+    cardSize: 150
+  - type: cards
+    name: ✅ Watched
+    filters:
+      and:
+        - status == "✅ done"
+    order:
+      - file.name
+      - formula.by
+      - formula.shelf
+    sort:
+      - property: status
+        direction: ASC
+      - property: series
+        direction: ASC
+      - property: order
+        direction: ASC
+      - property: formula.maker
+        direction: ASC
+      - property: released
+        direction: ASC
+    image: note.cover
+    imageFit: cover
+    imageAspectRatio: 1.5
+    cardSize: 150
+  - type: table
+    name: 📋 List
+    order:
+      - file.name
+      - series
+      - order
+      - format
+      - director
+      - creator
+      - released
+      - genre
+      - status
+      - rating
+    sort:
+      - property: status
+        direction: ASC
+      - property: series
+        direction: ASC
+      - property: order
+        direction: ASC
+      - property: formula.maker
+        direction: ASC
+      - property: released
+        direction: ASC

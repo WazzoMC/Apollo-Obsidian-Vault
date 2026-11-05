@@ -1,0 +1,31 @@
+filters:
+  and:
+    - file.path != this.file.path
+    - '!file.inFolder("8 System ⚙️/Templates 📎")'
+    - or:
+        - and:
+            - categories.contains(link("📑 Course Chapters"))
+            - file.folder == this.file.folder
+        - and:
+            - categories.contains(link("🧩 Modules"))
+            - file.folder == this.file.folder + "/" + file.basename
+formulas:
+  title: file.asLink(file.basename.split(" – ")[0])
+properties:
+  note.order:
+    displayName: "#"
+  formula.title:
+    displayName: Name
+views:
+  - type: table
+    name: Contents
+    order:
+      - order
+      - formula.title
+      - status
+    sort:
+      - property: order
+        direction: ASC
+    columnSize:
+      note.order: 60
+      formula.title: 420

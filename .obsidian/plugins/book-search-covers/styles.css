@@ -1,0 +1,562 @@
+/* ── Shared modal layout (search modal + cover picker) ─────────────────── */
+/* Both modals sized like Obsidian's own search prompts (quick switcher).
+   Desktop only: on mobile, modals are near-fullscreen sheets and keep their
+   native width. */
+body:not(.is-mobile) .bsc-modal {
+	width: min(var(--prompt-width), var(--dialog-max-width));
+}
+
+/* iOS keyboard fix. On iOS WKWebView the soft keyboard overlays the page rather
+   than shrinking the viewport, so a vertically centered modal has its lower half
+   (footer dropdowns + results) hidden behind the keyboard. Anchor the modal to
+   the top and cap its height to the space above the keyboard, then flex the
+   inner scroll areas so they shrink and the footer stays on-screen.
+   --bsc-kb-height is the keyboard's height, set from the Capacitor keyboard
+   events in mobile-viewport.ts; it defaults to 0 (no keyboard) so the modal is
+   full-height until one appears. visualViewport is not used: on iOS it does not
+   report the overlaying keyboard. */
+body.is-mobile .modal-container.bsc-anchor-top {
+	align-items: flex-start;
+	padding-top: env(safe-area-inset-top, 0px);
+}
+body.is-mobile .bsc-modal {
+	display: flex;
+	flex-direction: column;
+	/* 100vh is the full webview height (iOS keeps it full behind the keyboard);
+	   subtract the top safe area and the keyboard so the modal ends exactly at
+	   the top of the keyboard. With no keyboard, max() falls back to the bottom
+	   safe area so the footer clears the home indicator instead of sitting under
+	   it; with the keyboard up its height dominates (it already covers the home
+	   indicator), so the two never double-count. */
+	max-height: calc(
+		100vh - env(safe-area-inset-top, 0px) -
+			max(var(--bsc-kb-height, 0px), env(safe-area-inset-bottom, 0px))
+	);
+}
+body.is-mobile .bsc-modal .modal-content {
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 auto;
+	min-height: 0;
+	/* Normally the inner scroll areas own the scrolling; auto (not hidden) is
+	   the safety net for landscape phones, where title + input + footer alone
+	   can exceed the space above the keyboard — hidden would clip the footer
+	   with no way to reach it. */
+	overflow-y: auto;
+}
+/* Scroll areas flex to fill and shrink instead of reserving a fixed vh behind
+   the keyboard. min-height:0 is required or the flex item won't shrink. */
+body.is-mobile .bsc-results,
+body.is-mobile .bsc-cover-grid {
+	flex: 1 1 auto;
+	min-height: 0;
+	max-height: none;
+}
+/* Everything that isn't the scroll area keeps its size, so only the results
+   shrink and the footer dropdowns the user must reach stay above the keyboard. */
+body.is-mobile .bsc-query-input,
+body.is-mobile .bsc-status,
+body.is-mobile .bsc-url-row,
+body.is-mobile .bsc-modal-footer {
+	flex: 0 0 auto;
+}
+.bsc-query-input {
+	width: 100%;
+	font-size: 16px; /* prevents iOS focus-zoom */
+	padding: 0.5em;
+	margin-bottom: 0.5em;
+}
+.bsc-options-row {
+	display: flex;
+	gap: 1em;
+	align-items: center;
+	flex-wrap: wrap;
+}
+.bsc-option {
+	display: flex;
+	gap: 0.35em;
+	align-items: center;
+}
+.bsc-option-icon {
+	display: flex;
+	color: var(--text-muted);
+}
+.bsc-option-icon svg {
+	width: var(--icon-s);
+	height: var(--icon-s);
+}
+.bsc-option-label {
+	color: var(--text-muted);
+	font-size: var(--font-smaller);
+}
+/* Footer bar: per-search options on the left, key hints on the right. */
+.bsc-modal-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1em;
+	flex-wrap: wrap;
+	margin-top: 0.5em;
+	padding-top: 0.5em;
+	border-top: 1px solid var(--background-modifier-border);
+}
+.bsc-key-hints {
+	display: flex;
+	gap: 1em;
+	color: var(--text-faint);
+	font-size: var(--font-smallest);
+}
+.bsc-key-hint kbd {
+	font-family: inherit;
+	background-color: var(--background-modifier-border);
+	border-radius: var(--radius-s);
+	padding: 0.1em 0.4em;
+}
+.bsc-status {
+	color: var(--text-muted);
+	font-size: var(--font-smaller);
+	min-height: 1.4em;
+	margin-bottom: 0.25em;
+}
+
+/* ── Search result rows ────────────────────────────────────────────────── */
+/* Mobile gives <button> a filled background and a large radius; flatten the
+   result rows and cover cards back into plain list items. (Placed before the
+   hover/selected rules so those still win on equal specificity.) */
+body.is-mobile .bsc-result-row,
+body.is-mobile .bsc-cover-card {
+	background: transparent;
+	border-radius: var(--radius-s);
+	box-shadow: none;
+}
+.bsc-results {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25em;
+	min-height: 14em; /* idle/empty/skeleton/results all keep the same height */
+	max-height: 50vh;
+	overflow-y: auto;
+}
+.bsc-result-row {
+	display: flex;
+	gap: 0.75em;
+	align-items: flex-start;
+	/* Buttons center their content by default — pin everything to the left so
+	   covers and text line up across rows regardless of content width. */
+	justify-content: flex-start;
+	text-align: left;
+	width: 100%;
+	height: auto;
+	padding: 0.5em;
+	cursor: pointer;
+	box-shadow: none;
+	background: transparent;
+	transition: background-color 100ms ease;
+}
+.bsc-result-row:hover {
+	background-color: var(--background-modifier-hover);
+}
+.bsc-result-row.is-selected {
+	background-color: hsla(var(--interactive-accent-hsl), 0.15);
+	box-shadow: inset 2px 0 0 var(--interactive-accent);
+}
+/* Fixed-size slot rendered for every row (image or placeholder icon), so the
+   text column always starts at the same x. */
+.bsc-result-cover {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 56px;
+	width: 56px;
+	height: 84px;
+	border-radius: 4px;
+	background-color: var(--background-modifier-border);
+	box-shadow: var(--shadow-s);
+	overflow: hidden;
+}
+.bsc-result-cover img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	opacity: 0;
+	transition: opacity 200ms ease;
+}
+.bsc-result-cover img.is-loaded {
+	opacity: 1;
+}
+.bsc-result-cover-empty {
+	color: var(--text-faint);
+	box-shadow: none;
+}
+.bsc-result-text {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	/* The row is a <button>; Obsidian buttons set white-space: nowrap, which
+	   would defeat the multi-line description clamp. */
+	white-space: normal;
+}
+.bsc-result-title {
+	font-weight: var(--font-semibold);
+}
+.bsc-result-authors {
+	color: var(--text-muted);
+}
+.bsc-result-meta {
+	color: var(--text-faint);
+	font-size: var(--font-smallest);
+}
+.bsc-result-desc {
+	color: var(--text-muted);
+	font-size: var(--font-smaller);
+	margin-top: 0.15em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	/* 3 lines fill the height of the 84px cover slot instead of leaving a gap. */
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+}
+
+/* Idle / no-results / error state, centered in the results area. */
+.bsc-empty {
+	margin: auto;
+	text-align: center;
+	color: var(--text-muted);
+	padding: 1em;
+}
+.bsc-empty-icon {
+	color: var(--text-faint);
+	margin-bottom: 0.5em;
+}
+.bsc-empty-icon svg {
+	width: var(--icon-xl);
+	height: var(--icon-xl);
+}
+
+/* Skeleton rows shown while a search is in flight. */
+.bsc-skeleton-row {
+	cursor: default;
+}
+.bsc-skeleton-block {
+	background: linear-gradient(
+		90deg,
+		var(--background-modifier-hover) 25%,
+		var(--background-modifier-border) 50%,
+		var(--background-modifier-hover) 75%
+	);
+	background-size: 200% 100%;
+	animation: bsc-shimmer 1.2s linear infinite;
+	box-shadow: none;
+}
+.bsc-skeleton-line {
+	height: 0.9em;
+	border-radius: var(--radius-s);
+	margin-bottom: 0.5em;
+}
+.bsc-skeleton-line:nth-child(1) {
+	width: 45%;
+}
+.bsc-skeleton-line:nth-child(2) {
+	width: 70%;
+}
+.bsc-skeleton-line:nth-child(3) {
+	width: 55%;
+}
+@keyframes bsc-shimmer {
+	from {
+		background-position: 200% 0;
+	}
+	to {
+		background-position: -200% 0;
+	}
+}
+
+/* ── Cover picker grid ─────────────────────────────────────────────────── */
+.bsc-cover-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+	gap: 0.75em;
+	max-height: 60vh;
+	overflow-y: auto;
+}
+/* Phone-sized covers: three columns instead of two oversized ones. */
+body.is-mobile .bsc-cover-grid {
+	grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+	gap: 0.5em;
+}
+body.is-mobile .bsc-cover-card-img {
+	width: 88px;
+	height: 132px;
+}
+.bsc-cover-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.35em;
+	height: auto;
+	padding: 0.6em 0.5em;
+	cursor: pointer;
+	box-shadow: none;
+	background: transparent;
+	transition: background-color 100ms ease;
+}
+.bsc-cover-card:hover {
+	background-color: var(--background-modifier-hover);
+}
+.bsc-cover-card.is-selected {
+	background-color: hsla(var(--interactive-accent-hsl), 0.15);
+	box-shadow: inset 0 0 0 2px var(--interactive-accent);
+}
+.bsc-cover-card-img {
+	width: 120px;
+	height: 180px;
+	object-fit: contain;
+	border-radius: 4px;
+	background-color: var(--background-modifier-border);
+	box-shadow: var(--shadow-s);
+	opacity: 0;
+	transition: opacity 200ms ease;
+}
+.bsc-cover-card-img.is-loaded {
+	opacity: 1;
+}
+/* Caption: title / author / year / API, one per line. The card is a <button>,
+   so white-space must be reset for the lines to wrap and clamp. */
+.bsc-cover-card-caption {
+	display: flex;
+	flex-direction: column;
+	gap: 0.1em;
+	min-width: 0;
+	text-align: center;
+	white-space: normal;
+}
+.bsc-cover-card-title {
+	font-size: var(--font-smaller);
+	font-weight: var(--font-semibold);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+.bsc-cover-card-author {
+	font-size: var(--font-smaller);
+	color: var(--text-muted);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+}
+.bsc-cover-card-year {
+	font-size: var(--font-smallest);
+	color: var(--text-faint);
+}
+.bsc-cover-card-dims {
+	font-size: var(--font-smallest);
+	color: var(--text-faint);
+	font-variant-numeric: tabular-nums;
+	min-height: 1.2em; /* reserve the line so captions don't jump on load */
+}
+.bsc-cover-card-api {
+	font-size: var(--font-smallest);
+	color: var(--text-faint);
+}
+
+/* Custom-URL row under the cover grid. */
+.bsc-url-row {
+	display: flex;
+	gap: 0.5em;
+	margin-top: 0.5em;
+}
+.bsc-url-input {
+	flex: 1;
+	min-width: 0;
+	font-size: 16px; /* prevents iOS focus-zoom */
+	padding: 0.4em;
+}
+
+/* ── Duplicate dialog ──────────────────────────────────────────────────── */
+.bsc-dialog-buttons {
+	display: flex;
+	gap: 0.5em;
+	justify-content: flex-end;
+	flex-wrap: wrap;
+	margin-top: 1em;
+}
+
+/* ── Settings ──────────────────────────────────────────────────────────── */
+.bsc-settings-intro {
+	margin-top: 0.75em;
+	color: var(--text-muted);
+	font-size: var(--font-smaller);
+}
+.bsc-settings-intro summary {
+	cursor: pointer;
+	color: var(--text-muted);
+	font-weight: var(--font-semibold);
+}
+.bsc-settings-intro p {
+	margin: 0.5em 0;
+}
+.bsc-settings-intro strong {
+	color: var(--text-normal);
+}
+/* The template editor needs the full row width, so this row stacks instead of
+   putting the control in the narrow right-hand column. The reset button sits
+   above the textarea, aligned right. */
+.bsc-template-row {
+	display: block;
+}
+.bsc-template-row .setting-item-control {
+	flex-direction: column;
+	align-items: flex-end;
+	width: 100%;
+	margin-top: 0.75em;
+}
+.bsc-template-input {
+	width: 100%;
+	font-family: var(--font-monospace);
+}
+/* Vault-path inputs hold long values; the stock input width truncates them. */
+.bsc-path-input {
+	width: 24em;
+	max-width: 100%;
+}
+.bsc-template-input:disabled {
+	opacity: 0.5;
+}
+/* Appended to a setting's description when its value points at something that
+   isn't there. Hidden until it has something to say. */
+.bsc-setting-warning {
+	display: none;
+	margin-top: 0.4em;
+	color: var(--text-warning);
+}
+.bsc-setting-warning.is-visible {
+	display: block;
+}
+.bsc-variables {
+	margin-top: 0.75em;
+	font-size: var(--font-smaller);
+}
+.bsc-variables summary {
+	cursor: pointer;
+	color: var(--text-muted);
+	font-weight: var(--font-semibold);
+}
+.bsc-variables-grid {
+	display: grid;
+	grid-template-columns: max-content 1fr;
+	gap: 0.25em 1em;
+	padding: 0.5em 0 0 0.5em;
+}
+.bsc-variables-desc {
+	color: var(--text-muted);
+}
+/* Command names are far too long for a max-content label column; stack the
+   name above its description instead. */
+.bsc-settings-intro .bsc-variables-grid {
+	grid-template-columns: 1fr;
+	gap: 0.15em 0;
+}
+.bsc-settings-intro .bsc-variables-desc {
+	margin-bottom: 0.4em;
+}
+/* Summary button carries a Lucide chevron so it reads as a dropdown trigger;
+   it rotates to point up while the panel is open. */
+.bsc-store-select-toggle {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4em;
+}
+.bsc-store-select-chevron {
+	display: inline-flex;
+	transition: transform 0.15s ease;
+}
+.bsc-store-select-chevron .svg-icon {
+	width: 1em;
+	height: 1em;
+}
+.bsc-store-select-toggle.is-open .bsc-store-select-chevron {
+	transform: rotate(180deg);
+}
+/* Expanding checkbox panel: a bordered surface under the setting row. */
+.bsc-store-select {
+	margin-top: -0.5em;
+}
+/* The panel hangs off the setting row itself (Obsidian's declarative renderer
+   hands out a row, never the container), so let the row wrap and give the
+   panel a line of its own. */
+.bsc-store-select-row {
+	flex-wrap: wrap;
+}
+.bsc-store-select-row .bsc-store-select {
+	flex-basis: 100%;
+	margin-top: 0;
+}
+/* Pre-1.13 only: reference content that 1.13 shows as a navigable sub-page
+   collapses into a disclosure block instead. The summary is the visible label,
+   so the row's own name/control columns are hidden. */
+.bsc-disclosure-row {
+	display: block;
+	border-top: none;
+	padding-top: 0;
+}
+.bsc-disclosure-row .setting-item-info,
+.bsc-disclosure-row .setting-item-control {
+	display: none;
+}
+.bsc-store-select.is-open {
+	margin-bottom: 1em;
+	padding: 0.6em 0.75em;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-m);
+	background: var(--background-secondary);
+}
+.bsc-store-select-shortcuts {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4em;
+	margin-bottom: 0.6em;
+	padding-bottom: 0.6em;
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+.bsc-store-shortcut {
+	font-size: var(--font-ui-small);
+	padding: 0.2em 0.7em;
+	cursor: pointer;
+}
+/* Grid with a fixed row count so stores flow top-to-bottom, 11 per column, instead
+   of across rows. (CSS multicol is avoided here: it's only partially supported,
+   notably on the WebKit engine Obsidian Mobile uses, especially inside scrolling
+   containers.)
+
+   11 rows keeps the 22 stores in two columns. Three columns overflowed the stock
+   settings pane, and the item width can't shrink to compensate — it's set by the
+   longest label ("Google GB (United Kingdom)"). */
+.bsc-store-select-list {
+	display: grid;
+	grid-auto-flow: column;
+	grid-template-rows: repeat(11, auto);
+	gap: 0 1em;
+	overflow-x: auto;
+}
+.bsc-store-select-item {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+	width: 14em;
+	padding: 0.15em 0;
+	font-size: var(--font-ui-small);
+	cursor: pointer;
+}
+.bsc-store-select-item input {
+	margin: 0;
+}
+/* A store unusable in the current config (e.g. Google without an API key). */
+.bsc-store-select-item.is-disabled {
+	color: var(--text-muted);
+	cursor: not-allowed;
+}

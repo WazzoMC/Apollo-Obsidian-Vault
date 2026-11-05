@@ -1,0 +1,25 @@
+filters:
+  and:
+  - file.path != this.file.path
+  - '!file.inFolder("8 System ⚙️/Templates 📎")'
+formulas:
+  Related: list(this.file.links).filter(list(file.links).containsAny(value)).unique()
+  LinksOverlap: formula.Related.length
+properties:
+  formula.Related:
+    displayName: Shared links
+views:
+- type: table
+  name: Related
+  filters:
+    or:
+    - formula.LinksOverlap > 1
+    - file.hasLink(this)
+    - this.file.hasLink(file)
+  order:
+  - file.name
+  - formula.Related
+  sort:
+  - property: formula.LinksOverlap
+    direction: DESC
+  limit: 15

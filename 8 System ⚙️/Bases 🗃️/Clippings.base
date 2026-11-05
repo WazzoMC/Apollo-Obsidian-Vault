@@ -1,0 +1,24 @@
+filters:
+  and:
+  - or:
+    - categories.contains(link("📰 Clippings"))
+    - file.inFolder("8 System ⚙️/Clippings 📰")
+  - '!file.inFolder("8 System ⚙️/Templates 📎")'
+views:
+- type: table
+  name: Clippings
+  order:
+  - file.name
+  - author
+  - published
+  sort:
+  - property: created
+    direction: DESC
+- type: table
+  name: Author
+  filters:
+    and:
+    - list(author).contains(this)
+  order:
+  - file.name
+  - published

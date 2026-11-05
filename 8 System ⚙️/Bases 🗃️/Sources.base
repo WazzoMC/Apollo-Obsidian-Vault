@@ -1,0 +1,25 @@
+filters:
+  and:
+  - categories.contains(link("📚 Sources"))
+  - '!file.inFolder("8 System ⚙️/Templates 📎")'
+views:
+- type: table
+  name: Sources
+  groupBy:
+    property: file.folder
+    direction: ASC
+  order:
+  - file.name
+  - author
+  - file.mtime
+  sort:
+  - property: file.mtime
+    direction: DESC
+- type: table
+  name: Author
+  filters:
+    and:
+    - list(author).contains(this)
+  order:
+  - file.name
+  - file.mtime

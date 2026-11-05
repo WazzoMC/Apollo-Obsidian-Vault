@@ -1,0 +1,17 @@
+filters:
+  and:
+    - categories.contains(link("🧩 Modules"))
+    - '!file.inFolder("8 System ⚙️/Templates 📎")'
+views:
+  - type: table
+    name: Modules
+    groupBy:
+      property: file.folder
+      direction: ASC
+    order:
+      - order
+      - file.name
+      - status
+    sort:
+      - property: order
+        direction: ASC

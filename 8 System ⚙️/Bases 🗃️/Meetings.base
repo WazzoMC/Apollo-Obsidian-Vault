@@ -1,0 +1,32 @@
+filters:
+  and:
+    - categories.contains(link("🤝 Meetings"))
+    - '!file.inFolder("8 System ⚙️/Templates 📎")'
+views:
+  - type: table
+    name: Meetings
+    groupBy:
+      property: topics
+      direction: ASC
+    order:
+      - file.name
+      - topics
+      - date
+      - people
+    sort:
+      - property: date
+        direction: DESC
+    columnSize:
+      file.name: 269
+      note.topics: 103
+  - type: table
+    name: Person
+    filters:
+      and:
+        - list(people).contains(this)
+    order:
+      - file.name
+      - date
+    sort:
+      - property: date
+        direction: DESC

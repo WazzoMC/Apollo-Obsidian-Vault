@@ -1,0 +1,24 @@
+filters:
+  and:
+    - status == "🟢 active"
+    - '!file.inFolder("8 System ⚙️/Templates 📎")'
+    - '!file.inFolder("9 Archive 📦")'
+    - '!categories.contains(link("🧩 Modules"))'
+    - '!categories.contains(link("📑 Course Chapters"))'
+formulas:
+  due: if(deadline, "📅 " + date(deadline).format("MMM D"), " ")
+views:
+  - type: cards
+    name: Now
+    order:
+      - file.name
+      - formula.due
+    sort:
+      - property: categories
+        direction: ASC
+      - property: deadline
+        direction: DESC
+    cardSize: 150
+    imageAspectRatio: 0.55
+    image: note.icon
+    imageFit: contain

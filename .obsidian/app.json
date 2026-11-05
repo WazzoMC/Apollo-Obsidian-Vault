@@ -1,0 +1,19 @@
+{
+  "attachmentFolderPath": "8 System ⚙️/Attachments 📎",
+  "promptDelete": false,
+  "newFileLocation": "folder",
+  "newFileFolderPath": "1 Inbox 📥",
+  "alwaysUpdateLinks": true,
+  "mobilePullAction": "insert-template",
+  "vimMode": false,
+  "spellcheck": true,
+  "openBehavior": "",
+  "pdfExportSettings": {
+    "includeName": true,
+    "pageSize": "Letter",
+    "landscape": false,
+    "margin": "0",
+    "downscalePercent": 100
+  },
+  "defaultViewMode": "preview"
+}

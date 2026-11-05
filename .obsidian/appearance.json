@@ -1,0 +1,13 @@
+{
+  "theme": "system",
+  "cssTheme": "Minimal",
+  "accentColor": "",
+  "baseFontSize": 16,
+  "showRibbon": true,
+  "nativeMenus": false,
+  "enabledCssSnippets": [
+    "bookshelf",
+    "wide-page"
+  ],
+  "textFontFamily": ""
+}

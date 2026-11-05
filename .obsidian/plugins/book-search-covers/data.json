@@ -1,0 +1,13 @@
+{
+  "googleApiKey": "",
+  "store": "google:DE",
+  "switcherStores": [],
+  "coverSize": 800,
+  "coverMode": "link",
+  "coverFolder": "8 System ⚙️/Attachments 📎",
+  "noteFolder": "6 Bookshelf 📖/Books & Manga 📚🗯️",
+  "coverProperty": "cover",
+  "fileNameTemplate": "{{title}}",
+  "noteTemplate": "---\ncategories:\n  - \"[[📖 Books]]\"\ntitle: \"{{title}}\"\nauthor:\n{{authorsYamlLinks}}\nseries:\npublisher: \"{{publisher}}\"\npublished: {{year}}\npages: {{pageCount}}\nisbn: \"{{isbn}}\"\ngenre:\n{{categoriesYamlList}}\ncover: \"{{cover}}\"\nstatus: 🔖 want\nrating:\n---\n\n![cover|250]({{cover}})\n\n{{descriptionCallout}}\n\n## 💭 Thoughts\n\n\n## ✍️ Notes & quotes\n- \n\n## 🌲 Ideas I took from it\n- \n",
+  "templateFile": ""
+}

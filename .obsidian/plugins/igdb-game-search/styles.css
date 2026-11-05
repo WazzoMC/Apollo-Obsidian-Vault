@@ -1,0 +1,35 @@
+.game-search-plugin__settings--new_file_name .search-input-container {
+  width: 100%;
+}
+
+.game-search-plugin__settings--new_file_name {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.game-search-plugin__settings--new_file_name_hint {
+  margin-bottom: 20px;
+}
+.game-search-plugin__search-modal--input {
+  padding-bottom: 18px;
+}
+.game-search-plugin__search-modal--input input {
+  width: 100%;
+}
+
+.game-suggestion-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.game-cover-image {
+  max-width: 100px;
+  max-height: 100px;
+  margin-right: 10px;
+  object-fit: cover;
+  border-radius: 3px;
+}
+
+.game-text-info {
+  flex-grow: 1;
+}

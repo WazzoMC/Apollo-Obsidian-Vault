@@ -1,0 +1,113 @@
+filters:
+  and:
+    - file.path != this.file.path
+    - file.ext == "md"
+    - or:
+        - file.inFolder(this.file.folder)
+        - file.hasLink(this)
+        - list(topics).contains(this)
+    - '!file.inFolder("8 System ⚙️/Templates 📎")'
+formulas:
+  subfolder: file.folder.replace(this.file.folder, "").replace("/", "")
+  ytid: 'if(!source, "", if(source.toString().contains("youtu.be/"), source.toString().split("youtu.be/")[1].slice(0, 11), if(source.toString().contains("youtube.com") && source.toString().contains("v="), source.toString().split("v=")[1].slice(0, 11), "")))'
+  thumb: 'if(formula.ytid, "https://img.youtube.com/vi/" + formula.ytid + "/hqdefault.jpg", "")'
+properties:
+  formula.subfolder:
+    displayName: Subfolder
+views:
+  - type: table
+    name: Notes
+    groupBy:
+      property: formula.subfolder
+      direction: ASC
+    order:
+      - file.name
+      - categories
+      - topics
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC
+    columnSize:
+      file.name: 333
+      note.categories: 111
+      note.topics: 175
+      file.mtime: 215
+  - type: table
+    name: 📚 Sources
+    filters:
+      or:
+        - categories.contains(link("📚 Sources"))
+        - categories.contains(link("📑 Course Chapters"))
+    order:
+      - file.name
+      - formula.subfolder
+      - topics
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC
+  - type: cards
+    name: 🎬 Videos
+    filters:
+      and:
+        - 'formula.ytid != ""'
+    order:
+      - file.name
+    sort:
+      - property: file.mtime
+        direction: DESC
+    image: formula.thumb
+    imageFit: cover
+    imageAspectRatio: 0.5625
+    cardSize: 220
+  - type: table
+    name: ⚛️ Atomic
+    filters:
+      and:
+        - categories.contains(link("⚛️ Atomic"))
+    order:
+      - file.name
+      - formula.subfolder
+      - topics
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC
+  - type: table
+    name: ✍️ Writing
+    filters:
+      and:
+        - categories.contains(link("✍️ Writing"))
+    order:
+      - file.name
+      - kind
+      - stage
+      - formula.subfolder
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC
+  - type: table
+    name: 🌲 Evergreen
+    filters:
+      and:
+        - categories.contains(link("🌲 Evergreen"))
+    order:
+      - file.name
+      - formula.subfolder
+      - topics
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC
+  - type: table
+    name: Recent
+    order:
+      - file.name
+      - formula.subfolder
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC
+    limit: 5

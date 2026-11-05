@@ -1,0 +1,67 @@
+{
+  "devMode": false,
+  "ignoreCodeBlockRestrictions": false,
+  "preferredDateFormat": "YYYY-MM-DD",
+  "firstWeekday": "Monday",
+  "syncInterval": 200,
+  "enableJs": false,
+  "viewFieldDisplayNullAsEmpty": false,
+  "enableSyntaxHighlighting": true,
+  "enableEditorRightClickMenu": true,
+  "inputFieldTemplates": [],
+  "buttonTemplates": [
+    {
+      "id": "mb-today",
+      "label": "☀️ Today",
+      "style": "default",
+      "actions": [
+        {
+          "type": "command",
+          "command": "daily-notes"
+        }
+      ]
+    },
+    {
+      "id": "mb-new-module",
+      "label": "➕ Module",
+      "style": "default",
+      "actions": [
+        {
+          "type": "templaterCreateNote",
+          "templateFile": "8 System ⚙️/Templates 📎/🧩 Module Template.md",
+          "folderPath": "1 Inbox 📥",
+          "openNote": true
+        }
+      ]
+    },
+    {
+      "id": "mb-new-chapter",
+      "label": "➕ Course Chapter",
+      "style": "default",
+      "actions": [
+        {
+          "type": "templaterCreateNote",
+          "templateFile": "8 System ⚙️/Templates 📎/📑 Course Chapter Template.md",
+          "folderPath": "1 Inbox 📥",
+          "openNote": true
+        }
+      ]
+    },
+    {
+      "id": "mb-new-atomic",
+      "label": "➕ Atomic note",
+      "style": "default",
+      "actions": [
+        {
+          "type": "templaterCreateNote",
+          "templateFile": "8 System ⚙️/Templates 📎/⚛️ Atomic Template.md",
+          "folderPath": "1 Inbox 📥",
+          "openNote": true
+        }
+      ]
+    }
+  ],
+  "excludedFolders": [
+    "8 System ⚙️/Templates 📎"
+  ]
+}

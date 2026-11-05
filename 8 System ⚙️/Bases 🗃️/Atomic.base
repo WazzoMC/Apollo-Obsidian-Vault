@@ -1,0 +1,14 @@
+filters:
+  and:
+    - categories.contains(link("⚛️ Atomic"))
+    - '!file.inFolder("8 System ⚙️/Templates 📎")'
+views:
+  - type: table
+    name: Atomic
+    order:
+      - file.name
+      - topics
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC

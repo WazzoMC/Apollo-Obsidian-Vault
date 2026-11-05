@@ -1,0 +1,17 @@
+{
+  "folder": "6 Bookshelf 📖/Movies, Shows & Anime 🎬",
+  "file_name_format": "{{title}}",
+  "template_file": "",
+  "open_page_on_completion": true,
+  "locale_preference": "auto",
+  "ask_preferred_locale": false,
+  "api_key": "",
+  "include_adult": false,
+  "service_provider": "TMDB",
+  "recent_locales": {},
+  "no_api_key_attempts": 1,
+  "frontmatter": "categories:\n  - \"[[🎬 Movies & Shows]]\"\ntitle: \"{{title}}\"\nseries:\norder:\nformat: {{media_type}}\ndirector: \"{{director}}\"\ncreator:\nreleased: {{release_date}}\ngenre: [{{genres}}]\ncover: \"{{poster_path}}\"\nbanner: \"{{backdrop_path}}\"\ntrailer: \"{{youtube_url}}\"\nstatus: 🔖 want\nrating:",
+  "content": "> [!abstract]- Plot\n> {{overview}}\n\n## 💭 Thoughts\n\n\n## ✍️ Notes\n- \n",
+  "use_default_frontmatter": false,
+  "default_frontmatter_key_type": "Snake Case"
+}

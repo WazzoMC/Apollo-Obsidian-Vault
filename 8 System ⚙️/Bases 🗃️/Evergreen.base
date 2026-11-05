@@ -1,0 +1,15 @@
+filters:
+  and:
+    - categories.contains(link("🌲 Evergreen"))
+    - '!file.inFolder("8 System ⚙️/Templates 📎")'
+views:
+  - type: table
+    name: Evergreen
+    order:
+      - file.name
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC
+    columnSize:
+      file.name: 582

@@ -1,0 +1,114 @@
+filters:
+  and:
+    - categories.contains(link("🎮 Games"))
+    - '!file.inFolder("8 System ⚙️/Templates 📎")'
+formulas:
+  shelf: html(if(status, status, "") + if(rating, " <span class='shelf-stars'>" + "★".repeat(rating) + "</span>", ""))
+properties:
+  file.name:
+    displayName: Title
+  note.developer:
+    displayName: Developer
+  note.released:
+    displayName: Released
+  note.platform:
+    displayName: Platform
+  note.status:
+    displayName: Status
+  note.rating:
+    displayName: Rating
+  formula.shelf:
+    displayName: Shelf
+views:
+  - type: cards
+    name: 🎮 Shelf
+    order:
+      - file.name
+      - developer
+      - formula.shelf
+    sort:
+      - property: status
+        direction: ASC
+      - property: developer
+        direction: ASC
+      - property: released
+        direction: ASC
+    image: note.cover
+    imageFit: cover
+    imageAspectRatio: 1.5
+    cardSize: 150
+  - type: cards
+    name: ▶️ Playing
+    filters:
+      and:
+        - status == "▶️ on it"
+    order:
+      - file.name
+      - developer
+      - formula.shelf
+    sort:
+      - property: status
+        direction: ASC
+      - property: developer
+        direction: ASC
+      - property: released
+        direction: ASC
+    image: note.cover
+    imageFit: cover
+    imageAspectRatio: 1.5
+    cardSize: 150
+  - type: cards
+    name: 🔖 Wishlist
+    filters:
+      and:
+        - status == "🔖 want"
+    order:
+      - file.name
+      - developer
+      - formula.shelf
+    sort:
+      - property: status
+        direction: ASC
+      - property: developer
+        direction: ASC
+      - property: released
+        direction: ASC
+    image: note.cover
+    imageFit: cover
+    imageAspectRatio: 1.5
+    cardSize: 150
+  - type: cards
+    name: ✅ Finished
+    filters:
+      and:
+        - status == "✅ done"
+    order:
+      - file.name
+      - developer
+      - formula.shelf
+    sort:
+      - property: status
+        direction: ASC
+      - property: developer
+        direction: ASC
+      - property: released
+        direction: ASC
+    image: note.cover
+    imageFit: cover
+    imageAspectRatio: 1.5
+    cardSize: 150
+  - type: table
+    name: 📋 List
+    order:
+      - file.name
+      - developer
+      - platform
+      - released
+      - genre
+      - status
+      - rating
+    sort:
+      - property: status
+        direction: ASC
+      - property: developer
+        direction: ASC
